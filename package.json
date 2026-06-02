@@ -1,0 +1,63 @@
+{
+  "name": "secab-couplage-expert-v5-pro",
+  "version": "5.2.0",
+  "description": "SECAB Couplage Expert V5 PRO Windows - Fix écran blanc",
+  "main": "main.js",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build:web": "vite build",
+    "start": "electron .",
+    "dist": "npm run build:web && electron-builder --win nsis portable"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "electron": "^31.7.7",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "publish": null,
+    "appId": "fr.secab.couplage.expert.v5pro",
+    "productName": "SECAB Couplage Expert V5 PRO",
+    "directories": {
+      "output": "dist_electron"
+    },
+    "files": [
+      "main.js",
+      "dist/**/*",
+      "resources/**/*"
+    ],
+    "win": {
+      "icon": "resources/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "SECAB Couplage Expert V5 PRO",
+      "artifactName": "SECAB_Couplage_Expert_V5_PRO_Setup_FIX.exe"
+    },
+    "portable": {
+      "artifactName": "SECAB_Couplage_Expert_V5_PRO_Portable_FIX.exe"
+    }
+  }
+}
