@@ -8,29 +8,40 @@ on:
 jobs:
   build-windows:
     runs-on: windows-latest
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
+
+      - name: Show files
+        run: dir
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - name: Install dependencies
         run: npm install
+
       - name: Build web app
         run: npm run build:web
+
       - name: Verify dist files
         shell: pwsh
         run: |
           if (!(Test-Path "dist/index.html")) { throw "dist/index.html missing" }
           Get-ChildItem -Path dist -Recurse | Select-Object FullName
+
       - name: Build Windows setup and portable
         run: npx electron-builder --win nsis portable
+
       - name: Collect EXE files
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path output
           Get-ChildItem -Path dist_electron -Filter "*.exe" | Copy-Item -Destination output
+
       - name: Upload Windows artifacts
         uses: actions/upload-artifact@v4
         with:
